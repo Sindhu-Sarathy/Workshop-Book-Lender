@@ -59,7 +59,7 @@ public class Book {
         setAvailable(false);
     }
 
-    public void getBookInformation(){
-
+    public String getBookInformation(){
+        return String.format("Book Title: %s,Book author: %s,Book available: %b,Book borrower: %s",getTitle(),getAuthor(),isAvailable(),getBorrower()==null?"none":getBorrower().getPersonInformation());
     }
 }
