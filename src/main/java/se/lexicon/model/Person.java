@@ -47,6 +47,7 @@ public class Person {
 
     public void setBorrowed(Book[] borrowed) {
         this.borrowed = borrowed;
+
     }
 
     public void loanBook(Book book){
@@ -58,6 +59,7 @@ public class Person {
             Book[] newBorrowed = Arrays.copyOf(borrowed, borrowed.length + 1);
             newBorrowed[newBorrowed.length-1] = book;
             setBorrowed(newBorrowed);
+
         } else {
             throw new RuntimeException("The book is not available");
         }

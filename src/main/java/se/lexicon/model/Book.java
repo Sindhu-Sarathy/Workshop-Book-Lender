@@ -56,7 +56,8 @@ public class Book {
 
     public void setBorrower(Person borrower) {
         this.borrower = borrower;
-        setAvailable(false);
+      setAvailable(borrower==null);
+
     }
     public String toString() {
         return getId();
