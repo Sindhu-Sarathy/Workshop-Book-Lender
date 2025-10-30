@@ -11,10 +11,10 @@ public class Book {
     private Person borrower;
 
     public Book(String title, String author) {
-        id=UUID.randomUUID().toString();
         setTitle(title);
         setAuthor(author);
         setAvailable(true);
+        id=UUID.randomUUID().toString();
     }
 
     public Book(String title, String author, Person borrower) {
@@ -58,8 +58,13 @@ public class Book {
         this.borrower = borrower;
         setAvailable(false);
     }
+    public String toString() {
+        return getId();
+    }
 
     public String getBookInformation(){
-        return String.format("Book Title: %s,Book author: %s,Book available: %b,Book borrower: %s",getTitle(),getAuthor(),isAvailable(),getBorrower()==null?"none":getBorrower().getPersonInformation());
+        return String.format("Book ID: %s, title: %s, author: %s, available: %b, borrower ID: %s",
+                getId(), getTitle(), getAuthor(), isAvailable(),
+                getBorrower() == null ? "none" : getBorrower().getId());
     }
 }

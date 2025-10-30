@@ -11,9 +11,10 @@ public class Person {
     private Book[] borrowed =new Book[0];
 
     public Person(String firstName,String lastName) {
-        this.id = getNextId();
         setFirstName(firstName);
         setLastName(lastName);
+        this.id = getNextId();
+
     }
 
     private static int getNextId(){
@@ -49,36 +50,45 @@ public class Person {
     }
 
     public void loanBook(Book book){
-            if(book.isAvailable()){
-                book.setBorrower(this);
-                Book[] newArray= Arrays.copyOf(borrowed,borrowed.length+1);
-                newArray[newArray.length-1]=book;
-                setBorrowed(newArray);
-            }
-            else{
-                throw new RuntimeException("The Book is not available!");
-            }
+        // Check if book is available
+        if (book.isAvailable()) {
+            // Add person as the books borrower
+            book.setBorrower(this);
+            // Add book to persons list of borrowed books
+            Book[] newBorrowed = Arrays.copyOf(borrowed, borrowed.length + 1);
+            newBorrowed[newBorrowed.length-1] = book;
+            setBorrowed(newBorrowed);
+        } else {
+            throw new RuntimeException("The book is not available");
+        }
     }
 
     public void returnBook(Book book){
-        Book[] newBorrowed=new Book[borrowed.length-1];
-        for(int i=0,j=0;i< borrowed.length;i++){
-            if(borrowed[i].getId().equals(book.getId())){
-                newBorrowed[j]=borrowed[i];
+        Book[] newBorrowed = new Book[borrowed.length];
+        // copy all elements of borrowed except this book
+        for (int i=0, j=0; i < borrowed.length; i++) {
+            // copy all elements from borrowed, except if element.id == book.id
+            if (!borrowed[i].getId().equals(book.getId())) {
+                newBorrowed[j] = borrowed[i];
                 j++;
             }
         }
-
-        if(newBorrowed.length < borrowed.length){
+        // if successfully found and removed the book...
+        if (newBorrowed[newBorrowed.length-1] == null) {
+            // remove borrower from the book (sets it to available)
             book.setBorrower(null);
-            borrowed=newBorrowed;
-        }
-        else{
-            throw new RuntimeException("The book was not borrowed");
+            // change length of newBorrowed -1
+            newBorrowed = Arrays.copyOf(newBorrowed, newBorrowed.length-1);
+            // reassign the borrowed array
+            borrowed = newBorrowed;
+            // else throw an exception (the book was never borrowed)
+        } else {
+            throw new RuntimeException("Book was not borrowed");
         }
     }
 
     public String getPersonInformation(){
-        return String.format("Firstname: %s,Lastname: %s,Borrowed Books: %s",getFirstName(),getLastName(),Arrays.toString(borrowed));
+        return String.format("Person ID: %d, First name: %s, last name: %s, borrowed: %s",
+                getId(), getFirstName(), getLastName(), Arrays.toString(getBorrowed()));
     }
 }
