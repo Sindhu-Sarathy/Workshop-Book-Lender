@@ -60,12 +60,12 @@ public class Book {
 
     }
     public String toString() {
-        return getId();
+        return getBookInformation();
     }
 
-    public String getBookInformation(){
-        return String.format("Book ID: %s, title: %s, author: %s, available: %b, borrower ID: %s",
+    public String getBookInformation() {
+        return String.format("Book ID: %s, title: %s, author: %s, available: %b%s",
                 getId(), getTitle(), getAuthor(), isAvailable(),
-                getBorrower() == null ? "none" : getBorrower().getId());
+                getBorrower() == null ? "" : ", borrower ID: " + getBorrower().getId());
     }
 }
